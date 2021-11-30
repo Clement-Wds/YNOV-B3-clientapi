@@ -26,5 +26,14 @@ public class ProductProxy {
 		
 		return response.getBody();
 	}
+	
+	public Product getProductById(Integer id){
+		RestTemplate restTemplate = new RestTemplate();
+		
+		ResponseEntity<Product> response = restTemplate.exchange(props.getUrl() + "/product/" + id, HttpMethod.GET, null, Product.class);
+		
+		return response.getBody();
+		
+	}
 
 }
