@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,14 @@ public class ProductProxy {
 		
 		return response.getBody();
 		
+	}
+	
+	public void save(Product product) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpEntity<Product> request = new HttpEntity<>(product);
+		
+		ResponseEntity<Product> response = restTemplate.exchange(props.getUrl() + "/product", HttpMethod.POST, request, Product.class);
 	}
 
 }

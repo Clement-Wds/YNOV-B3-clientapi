@@ -21,4 +21,8 @@ public class ProductService {
 		return productProxy.getProductById(id);
 	}
 	
+	public void save(Product product) {
+		productProxy.save(product);
+	}
+	
 }
