@@ -22,6 +22,8 @@ public class ProductProxy {
 	@Autowired
 	private ApiProperties props;
 	
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImNvbS5vcGVuY2xhc3Nyb29tcyIsImlhdCI6MTYzODg5MjMzMywiZXhwIjoxNjM5NDk3MTMzfQ.32iMp0r97o0XLL8-261PJHDDBGfLSItPcJOyfwLuYzdRzmF2LmDZcdGxNbPbLS03wcczzHmhTlBgv419ZBXdyw";
+	
 	private HttpHeaders createHeaders(String username, String password) {
         
         return new HttpHeaders() {{
@@ -33,6 +35,13 @@ public class ProductProxy {
         }};
     }
 	
+	private HttpHeaders createTokenHeaders() {
+		return new HttpHeaders() {{
+			String authHeader = "Bearer " + token;
+			set("Authorization", authHeader);
+		}};
+	}
+	
 	public List<Product> getProducts(){
 		
 		RestTemplate restTemplate = new RestTemplate();
@@ -40,7 +49,7 @@ public class ProductProxy {
 		ResponseEntity<List<Product>> response = restTemplate.exchange(
 				props.getUrl() + "/product",
 				HttpMethod.GET,
-				new HttpEntity<>(createHeaders("admin", "1234")),
+				new HttpEntity<>(createTokenHeaders()),
 				new ParameterizedTypeReference<List<Product>>() {}
 				);
 		
@@ -53,7 +62,7 @@ public class ProductProxy {
 		ResponseEntity<Product> response = restTemplate.exchange(
 				props.getUrl() + "/product/" + id,
 				HttpMethod.GET,
-				new HttpEntity<>(createHeaders("admin", "1234")),
+				new HttpEntity<>(createTokenHeaders()),
 				Product.class
 				);
 		
@@ -64,7 +73,7 @@ public class ProductProxy {
 	public void save(Product product) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		HttpEntity<Product> request = new HttpEntity<>(product, createHeaders("admin", "1234"));
+		HttpEntity<Product> request = new HttpEntity<>(product, createTokenHeaders());
 		
 		ResponseEntity<Product> response = restTemplate.exchange(
 				props.getUrl() + "/product",

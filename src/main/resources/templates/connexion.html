@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Formulaire de connexion</title>
+</head>
+<body>
+
+    <form method="post" th:action="@{/login}" th:object="${product}">
+        <input type="text" th:field="*{username}">
+        <input type="text" th:field="*{password}">
+        <button type="submit">Connexion</button >
+          
+    </form >
+
+</body>
+</html>
