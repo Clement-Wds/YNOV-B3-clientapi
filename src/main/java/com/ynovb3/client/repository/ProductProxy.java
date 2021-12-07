@@ -64,7 +64,7 @@ public class ProductProxy {
 	public void save(Product product) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		HttpEntity<Product> request = new HttpEntity<>(product);
+		HttpEntity<Product> request = new HttpEntity<>(product, createHeaders("admin", "1234"));
 		
 		ResponseEntity<Product> response = restTemplate.exchange(
 				props.getUrl() + "/product",
