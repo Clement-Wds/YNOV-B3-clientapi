@@ -48,7 +48,8 @@ public class ProductController {
 	}
 	
 	@GetMapping("/newProduct")
-	public String newProductPage() {
-		return "newProduct";
-	}
+    public String newProductPage(Model model) {
+        model.addAttribute("product", new Product());
+        return "newProduct";
+    }
 }
