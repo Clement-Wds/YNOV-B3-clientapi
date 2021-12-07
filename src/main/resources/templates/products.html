@@ -3,29 +3,29 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Product List</title>
+
 </head>
 <body>
 
-	List of products
-	
-	<table>
-	
-		<thead>
-			<th>Name</th>
-			<th>Description</th>
-			<th>Cost</th>
-		</thead>
-		
-		<tbody>
-			<tr th:each="product: ${products}">
-				<td><span th:text="${product.name}"></span></td>
-				<td><span th:text="${product.description}"></span></td>
-				<td><span th:text="${product.cost}"></span></td>
-				<td><a th:href="@{/product/{id}(id=${product.id})}">See</a></td>
-			</tr>
-		</tbody>
-	
-	</table>
+   <h1>List of products</h1> 
+    
+    
+    
+    <table>
+        <thead>
+	        <th>Name</th>
+	        <th>Description</th>
+	        <th>Cost</th>
+	        <th>Link</th>
+        </thead>
+    <tbody>
+    <tr th:each="product: ${products}">
+        <td><span th:text="${product.name}"/></td>
+        <td><span th:text="${product.description}"/></td>
+        <td><span th:text="${product.cost}"/></td>
+        <td><a th:href="@{/product/{id}(id=${product.id})}">See</a></td>
+    </tr>
+    </tbody>
+    </table>
 
 </body>
-</html>
