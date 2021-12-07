@@ -53,7 +53,7 @@ public class ProductProxy {
 		ResponseEntity<Product> response = restTemplate.exchange(
 				props.getUrl() + "/product/" + id,
 				HttpMethod.GET,
-				null,
+				new HttpEntity<>(createHeaders("admin", "1234")),
 				Product.class
 				);
 		
