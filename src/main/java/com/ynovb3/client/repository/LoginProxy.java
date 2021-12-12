@@ -21,19 +21,21 @@ public class LoginProxy {
 	public void login(User user) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		HttpEntity<User> request = new HttpEntity<>(user, createTokenHeaders());
+		HttpEntity<User> request = new HttpEntity<>(user);
 		
-		ResponseEntity<User> response = restTemplate.exchange(
-				props.getUrl() + "/login",
+		ResponseEntity<String> response = restTemplate.exchange(
+				props.getPublicurl() + "/login",
 				HttpMethod.POST,
 				request,
-				User.class
+				String.class				
 				);
-		System.out.println("Body reponse : " + response.getBody());
+		System.out.println("Body response : " + response.getBody());
 		
+		// Extraction du token du header de la réponse
 		String token = response.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 		System.out.println("Received token is " + token);
 		
+		// Ajout du token dans la classe ApiProperties, comme ça il sera accessible dans les autres proxy.
 		props.setToken(token);
 	}
 

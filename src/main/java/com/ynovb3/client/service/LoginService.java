@@ -13,7 +13,7 @@ public class LoginService {
 	private LoginProxy loginProxy;
 	
 	public void login(User user) {
-		
+		loginProxy.login(user);
 	}
 	
 }

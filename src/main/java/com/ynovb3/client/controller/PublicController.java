@@ -15,10 +15,14 @@ public class PublicController {
 
 	@GetMapping("/login")
 	public String login() {
+		// Creation d'un user en dur qui existe dans la base de données côté API
+		// A remplacer par un formulaire
 		User user = new User();
 		user.setUsername("user");
 		user.setPassword("user");
+		
 		loginService.login(user);
+		
 		return "logged";
 	}
 	
