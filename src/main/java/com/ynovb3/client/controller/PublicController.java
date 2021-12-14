@@ -5,12 +5,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ynovb3.client.TokenContext;
 import com.ynovb3.client.model.User;
 import com.ynovb3.client.service.LoginService;
 
 @Controller
+@RequestMapping("public")
 public class PublicController {
 	
 	@Autowired
@@ -18,6 +20,11 @@ public class PublicController {
 	
 	@Autowired
 	private TokenContext tokenContext;
+	
+	@GetMapping("/")
+	public String homePage() {
+		return "homePage";
+	}
 
 	@GetMapping("/login")
 	public String login(HttpSession session) {

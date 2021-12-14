@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ynovb3.client.TokenContext;
@@ -18,6 +19,7 @@ import com.ynovb3.client.model.Product;
 import com.ynovb3.client.service.ProductService;
 
 @Controller
+@RequestMapping("private")
 public class ProductController {
 	
 	@Autowired
