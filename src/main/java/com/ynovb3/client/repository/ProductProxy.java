@@ -37,18 +37,18 @@ public class ProductProxy {
 	}
 	
 	// Création d'un header pour la méthode Bearer Token
-	private HttpHeaders createTokenHeaders() {
+	private HttpHeaders createTokenHeaders(String token) {
 		return new HttpHeaders() {
 			private static final long serialVersionUID = 1L;
 			{
 				// utilisation du token qui est dans la classe ApiProperties
-				String authHeader = "Bearer " + props.getToken();
+				String authHeader = "Bearer " + token;
 				set("Authorization", authHeader);
 			}
 		};
 	}
 	
-public List<Product> getProducts() {
+public List<Product> getProducts(String token) {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		
@@ -56,34 +56,34 @@ public List<Product> getProducts() {
 				restTemplate.exchange(
 						props.getUrl() + "/product", 
 						HttpMethod.GET, 
-						new HttpEntity<>(createTokenHeaders()), 
+						new HttpEntity<>(createTokenHeaders(token)), 
 						new ParameterizedTypeReference<List<Product>>() {}
 					);
 		return response.getBody();
 	}
 
-	public Product getProductById(Integer id) {
+	public Product getProductById(Integer id, String token) {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		ResponseEntity<Product> response =
 				restTemplate.exchange(
 						props.getUrl() + "/product/" + id, 
 						HttpMethod.GET, 
-						new HttpEntity<>(createTokenHeaders()), 
+						new HttpEntity<>(createTokenHeaders(token)), 
 						Product.class);
 		return response.getBody();
 	}
 	
-	public void save(Product product) {
+	public void save(Product product, String token) {
 		RestTemplate restTemplate = new RestTemplate();
 		
-		HttpEntity<Product> request = new HttpEntity<Product>(product, createTokenHeaders());
+		HttpEntity<Product> request = new HttpEntity<Product>(product, createTokenHeaders(token));
 		
 		restTemplate.exchange(
 				props.getUrl() + "/product",
 				HttpMethod.POST,
 				request,
-				Product.class				
+				Product.class
 				);
 	}
 	

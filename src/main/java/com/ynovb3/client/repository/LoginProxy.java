@@ -18,7 +18,7 @@ public class LoginProxy {
 	@Autowired
 	private ApiProperties props;
 	
-	public void login(User user) {
+	public String login(User user) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpEntity<User> request = new HttpEntity<>(user);
@@ -37,6 +37,8 @@ public class LoginProxy {
 		
 		// Ajout du token dans la classe ApiProperties, comme ça il sera accessible dans les autres proxy.
 		props.setToken(token);
+		
+		return token;
 	}
 
 }

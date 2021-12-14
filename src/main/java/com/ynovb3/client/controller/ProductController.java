@@ -2,6 +2,8 @@ package com.ynovb3.client.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +24,9 @@ public class ProductController {
 
 	@GetMapping("/products")
 	//Utiliser Model model pour envoyer dans la page html
-	public String productsPage(Model model) {
-		List<Product> products = productService.getProducts();
+	public String productsPage(Model model, HttpSession session) {
+		String token = (String) session.getAttribute("token");
+		List<Product> products = productService.getProducts(token);
 		//Envoyer dans la page html
 		model.addAttribute("products", products);
 		
@@ -32,8 +35,9 @@ public class ProductController {
 	
 	@GetMapping("/product/{id}")
 	//Utiliser Model model pour envoyer dans la page html
-	public String productPage(@PathVariable(name = "id") Integer id, Model model) {
-		Product product = productService.getProductById(id);
+	public String productPage(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
+		String token = (String) session.getAttribute("token");
+		Product product = productService.getProductById(id, token);
 		//Envoyer dans la page html
 		model.addAttribute("product", product);
 		
@@ -41,8 +45,9 @@ public class ProductController {
 	}
 	
 	@PostMapping("/product")
-	public ModelAndView createNewProduct(@ModelAttribute Product product) {
-		productService.save(product);
+	public ModelAndView createNewProduct(@ModelAttribute Product product, HttpSession session) {
+		String token = (String) session.getAttribute("token");
+		productService.save(product, token);
 		
 		return new ModelAndView("redirect:/products");
 	}
