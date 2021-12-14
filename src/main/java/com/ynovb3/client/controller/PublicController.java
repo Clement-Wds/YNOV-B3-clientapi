@@ -18,8 +18,8 @@ public class PublicController {
 		// Creation d'un user en dur qui existe dans la base de données côté API
 		// A remplacer par un formulaire
 		User user = new User();
-		user.setUsername("user");
-		user.setPassword("user");
+		user.setUsername("admin");
+		user.setPassword("admin");
 		
 		loginService.login(user);
 		
