@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ynovb3.client.TokenContext;
-import com.ynovb3.client.model.User;
+import com.ynovb3.client.model.ApiUser;
 import com.ynovb3.client.service.LoginService;
 
 @Controller
@@ -30,7 +30,7 @@ public class PublicController {
 	public String login(HttpSession session) {
 		// Creation d'un user en dur qui existe dans la base de données côté API
 		// A remplacer par un formulaire
-		User user = new User();
+		ApiUser user = new ApiUser();
 		user.setUsername("admin");
 		user.setPassword("admin");
 		

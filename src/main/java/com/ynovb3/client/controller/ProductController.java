@@ -25,47 +25,29 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	@Autowired
-	private TokenContext tokenContext;
-
 	@GetMapping("/products")
-	//Utiliser Model model pour envoyer dans la page html
 	public String productsPage(Model model, HttpSession session) {
-		if(tokenContext.getToken() == null) {
-			return "unauthorized";
-		} else {
-			List<Product> products = productService.getProducts();
-			//Envoyer dans la page html
-			model.addAttribute("products", products);
-			
-			return "products";
-		}
+		List<Product> products = productService.getProducts();
+		model.addAttribute("products", products);
+		return "products";
 	}
 	
-	@GetMapping("/product/{id}")
-	//Utiliser Model model pour envoyer dans la page html
-	public String productPage(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
-		if(tokenContext.getToken() == null) {
-			return "unauthorized";
-		} else {
-			Product product = productService.getProductById(id);
-			//Envoyer dans la page html
-			model.addAttribute("product", product);
-			
-			return "product";
-		}
+	@GetMapping("/products/{id}")
+	public String productPage(@PathVariable(name = "id") Integer id, Model model) {
+		Product product = productService.getProductById(id);
+		model.addAttribute("product", product);
+		return "product";
 	}
 	
-	@PostMapping("/product")
-	public ModelAndView createNewProduct(@ModelAttribute Product product, HttpSession session) {
+	@PostMapping("/products")
+	public ModelAndView createNewProduct(@ModelAttribute Product product) {
 		productService.save(product);
-		
 		return new ModelAndView("redirect:/products");
 	}
 	
 	@GetMapping("/newProduct")
-    public String newProductPage(Model model) {
-        model.addAttribute("product", new Product());
-        return "newProduct";
-    }
+	public String newProductPage(Model model) {
+		model.addAttribute("product", new Product());
+		return "newProduct";
+	}
 }

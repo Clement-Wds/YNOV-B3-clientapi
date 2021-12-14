@@ -1,6 +1,6 @@
 package com.ynovb3.client.model;
 
-public class User {
+public class ApiUser {
 	
 	private String username;
 	private String password;
