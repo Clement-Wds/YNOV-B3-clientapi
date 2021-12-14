@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.ynovb3.client.TokenContext;
 import com.ynovb3.client.model.User;
 import com.ynovb3.client.service.LoginService;
 
@@ -14,6 +15,9 @@ public class PublicController {
 	
 	@Autowired
 	private LoginService loginService;
+	
+	@Autowired
+	private TokenContext tokenContext;
 
 	@GetMapping("/login")
 	public String login(HttpSession session) {
@@ -25,9 +29,19 @@ public class PublicController {
 		
 		String token = loginService.login(user);
 		session.setAttribute("loggeduser", user.getUsername());
-		session.setAttribute("token", token);
+		session.setAttribute("token", token); //possibily 1
+		tokenContext.setToken(token); //possibility 2 - optimized
 		
 		return "logged";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		
+		tokenContext.setToken(null);
+		session.invalidate();
+		return "logout";
+		
 	}
 	
 }

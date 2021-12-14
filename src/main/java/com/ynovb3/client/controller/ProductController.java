@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ynovb3.client.TokenContext;
 import com.ynovb3.client.model.Product;
 import com.ynovb3.client.service.ProductService;
 
@@ -21,15 +22,17 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private TokenContext tokenContext;
 
 	@GetMapping("/products")
 	//Utiliser Model model pour envoyer dans la page html
 	public String productsPage(Model model, HttpSession session) {
-		String token = (String) session.getAttribute("token");
-		if(token == null) {
+		if(tokenContext.getToken() == null) {
 			return "unauthorized";
 		} else {
-			List<Product> products = productService.getProducts(token);
+			List<Product> products = productService.getProducts();
 			//Envoyer dans la page html
 			model.addAttribute("products", products);
 			
@@ -40,11 +43,10 @@ public class ProductController {
 	@GetMapping("/product/{id}")
 	//Utiliser Model model pour envoyer dans la page html
 	public String productPage(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
-		String token = (String) session.getAttribute("token");
-		if(token == null) {
+		if(tokenContext.getToken() == null) {
 			return "unauthorized";
 		} else {
-			Product product = productService.getProductById(id, token);
+			Product product = productService.getProductById(id);
 			//Envoyer dans la page html
 			model.addAttribute("product", product);
 			
@@ -54,8 +56,7 @@ public class ProductController {
 	
 	@PostMapping("/product")
 	public ModelAndView createNewProduct(@ModelAttribute Product product, HttpSession session) {
-		String token = (String) session.getAttribute("token");
-		productService.save(product, token);
+		productService.save(product);
 		
 		return new ModelAndView("redirect:/products");
 	}
