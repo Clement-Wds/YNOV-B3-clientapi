@@ -26,22 +26,30 @@ public class ProductController {
 	//Utiliser Model model pour envoyer dans la page html
 	public String productsPage(Model model, HttpSession session) {
 		String token = (String) session.getAttribute("token");
-		List<Product> products = productService.getProducts(token);
-		//Envoyer dans la page html
-		model.addAttribute("products", products);
-		
-		return "products";
+		if(token == null) {
+			return "unauthorized";
+		} else {
+			List<Product> products = productService.getProducts(token);
+			//Envoyer dans la page html
+			model.addAttribute("products", products);
+			
+			return "products";
+		}
 	}
 	
 	@GetMapping("/product/{id}")
 	//Utiliser Model model pour envoyer dans la page html
 	public String productPage(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
 		String token = (String) session.getAttribute("token");
-		Product product = productService.getProductById(id, token);
-		//Envoyer dans la page html
-		model.addAttribute("product", product);
-		
-		return "product";
+		if(token == null) {
+			return "unauthorized";
+		} else {
+			Product product = productService.getProductById(id, token);
+			//Envoyer dans la page html
+			model.addAttribute("product", product);
+			
+			return "product";
+		}
 	}
 	
 	@PostMapping("/product")
